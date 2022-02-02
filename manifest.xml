@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="29" android:compileSdkVersionCodename="10" android:versionCode="24" android:versionName="2.0.4" package="com.nhstudio.imusic" platformBuildVersionCode="29" platformBuildVersionName="10">
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-feature android:name="android.hardware.faketouch" android:required="false" />
+	<uses-feature android:name="android.hardware.screen.portrait" android:required="false" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+	<application android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:enabled="true" android:hardwareAccelerated="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:requestLegacyExternalStorage="true" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/Theme.IMusic">
+		<activity android:label="@string/app_name" android:launchMode="singleTask" android:name="com.nhstudio.imusic.MainActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<receiver android:enabled="true" android:exported="true" android:name="com.nhstudio.imusic.reciver.RemoteControlReceiver">
+			<intent-filter android:priority="999">
+				<action android:name="android.intent.action.MEDIA_BUTTON" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="com.nhstudio.imusic.reciver.ControlActionsListener" />
+		<service android:exported="false" android:name="com.nhstudio.imusic.services.IMusicService">
+			<intent-filter>
+				<action android:name="com.nhstudio.imusic.action.INIT" />
+				<action android:name="com.nhstudio.imusic.action.INIT_PATH" />
+				<action android:name="com.nhstudio.imusic.action.INIT_QUEUE" />
+				<action android:name="com.nhstudio.imusic.action.FINISH" />
+				<action android:name="com.nhstudio.imusic.action.FINISH_IF_NOT_PLAYING" />
+				<action android:name="com.nhstudio.imusic.action.PREVIOUS" />
+				<action android:name="com.nhstudio.imusic.action.PAUSE" />
+				<action android:name="com.nhstudio.imusic.action.PLAYPAUSE" />
+				<action android:name="com.nhstudio.imusic.action.NEXT" />
+				<action android:name="com.nhstudio.imusic.action.EDIT" />
+				<action android:name="com.nhstudio.imusic.action.PLAY_TRACK" />
+				<action android:name="com.nhstudio.imusic.action.REFRESH_LIST" />
+				<action android:name="com.nhstudio.imusic.action.UPDATE_NEXT_TRACK" />
+				<action android:name="com.nhstudio.imusic.action.SET_PROGRESS" />
+				<action android:name="com.nhstudio.imusic.action.SKIP_BACKWARD" />
+				<action android:name="com.nhstudio.imusic.action.SKIP_FORWARD" />
+				<action android:name="com.nhstudio.imusic.action.BROADCAST_STATUS" />
+				<action android:name="com.nhstudio.imusic.action.SET_PLAYBACK_SPEED" />
+			</intent-filter>
+		</service>
+		<receiver android:name="com.nhstudio.imusic.reciver.HeadsetPlugReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.ACTION_HEADSET_PLUG" />
+			</intent-filter>
+		</receiver>
+		<receiver android:enabled="true" android:exported="true" android:name="com.nhstudio.imusic.reciver.NotificationDismissedReceiver">
+			<intent-filter>
+				<action android:name="com.simplemobiletools.musicplayer.action.NOTIFICATION_DISMISSED" />
+			</intent-filter>
+		</receiver>
+		<receiver android:exported="true" android:name="com.simplemobiletools.commons.receivers.SharedThemeReceiver">
+			<intent-filter>
+				<action android:name="com.simplemobiletools.commons.SHARED_THEME_ACTIVATED" />
+				<action android:name="com.simplemobiletools.commons.SHARED_THEME_UPDATED" />
+			</intent-filter>
+		</receiver>
+		<activity android:name="com.ess.filepicker.activity.SelectFileByBrowserActivity" />
+		<activity android:name="com.ess.filepicker.activity.SelectPictureActivity" />
+		<activity android:name="com.ess.filepicker.activity.SelectFileByScanActivity" />
+		<provider android:authorities="com.nhstudio.imusic.ess.file.provider" android:exported="false" android:grantUriPermissions="true" android:name="com.ess.filepicker.model.EssFileProvider">
+			<meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths" />
+		</provider>
+		<activity android:name="com.ess.filepicker.activity.PicturesViewActivity" />
+		<service android:directBootAware="true" android:exported="false" android:name="androidx.room.MultiInstanceInvalidationService" />
+		<service android:directBootAware="true" android:exported="false" android:name="com.google.firebase.components.ComponentDiscoveryService">
+			<meta-data android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar" android:value="com.google.firebase.components.ComponentRegistrar" />
+			<meta-data android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar" android:value="com.google.firebase.components.ComponentRegistrar" />
+			<meta-data android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar" android:value="com.google.firebase.components.ComponentRegistrar" />
+			<meta-data android:name="com.google.firebase.components:com.google.firebase.dynamicloading.DynamicLoadingRegistrar" android:value="com.google.firebase.components.ComponentRegistrar" />
+		</service>
+		<provider android:authorities="com.nhstudio.imusic.firebaseinitprovider" android:directBootAware="true" android:exported="false" android:initOrder="100" android:name="com.google.firebase.provider.FirebaseInitProvider" />
+		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+		<service android:exported="false" android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery">
+			<meta-data android:name="backend:com.google.android.datatransport.cct.CctBackendFactory" android:value="cct" />
+		</service>
+		<service android:exported="false" android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService" android:permission="android.permission.BIND_JOB_SERVICE" />
+		<receiver android:exported="false" android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver" />
+		<meta-data android:name="com.android.dynamic.apk.fused.modules" android:value="base" />
+		<meta-data android:name="com.android.stamp.source" android:value="https://play.google.com/store" />
+		<meta-data android:name="com.android.stamp.type" android:value="STAMP_TYPE_STANDALONE_APK" />
+		<meta-data android:name="com.android.vending.splits" android:value="@xml/splits0" />
+		<meta-data android:name="com.android.vending.derived.apk.id" android:value="1" />
+	</application>
+</manifest>
